@@ -13,7 +13,7 @@ const fitlerAssistantModels = (str) => {
 
 async function loadDefaultModels() {
   const google = getGoogleModels();
-  const openAI = await getOpenAIModels();
+  const openAI = [];//await getOpenAIModels(); // TODO: Fix this dirty hack to get rid of openAI calls when only using azure
   const anthropic = getAnthropicModels();
   const chatGPTBrowser = getChatGPTBrowserModels();
   const azureOpenAI = await getOpenAIModels({ azure: true });
