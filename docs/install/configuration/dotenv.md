@@ -1,7 +1,7 @@
 ---
 title: ⚙️ Environment Variables
 description: Comprehensive guide for configuring your application's environment with the `.env` file. This document is your one-stop resource for understanding and customizing the environment variables that will shape your application's behavior in different contexts.
-weight: -11
+weight: -12
 ---
 
 # .env File Configuration
@@ -29,16 +29,6 @@ For more info see:
 ---
 
 ## Server Configuration
-
-### Customization
-- Here you can change the app title and footer
-- Uncomment to add a custom footer.
-    - Uncomment and make empty "" to remove the footer.
-
-```bash
-APP_TITLE=LibreChat
-CUSTOM_FOOTER="My custom footer"
-```
 
 ### Port
 
@@ -116,6 +106,15 @@ UID=1000
 GID=1000
 ```
 
+### librechat.yaml path
+Set an alternative path for the LibreChat config file
+
+> Note: leave commented out to have LibreChat look for the config file in the root folder (default behavior)
+
+```sh
+CONFIG_PATH="/alternative/path/to/librechat.yaml"
+```
+
 ## Endpoints
 In this section you can configure the endpoints and models selection, their API keys, and the proxy and reverse proxy settings for the endpoints that support it. 
 
@@ -126,6 +125,20 @@ In this section you can configure the endpoints and models selection, their API 
 ```bash
 ENDPOINTS=openAI,assistants,azureOpenAI,bingAI,chatGPTBrowser,google,gptPlugins,anthropic
 PROXY=
+```
+
+### Known Endpoints - librechat.yaml
+- see: [AI Endpoints](./ai_endpoints.md)
+- see also: [Custom Configuration](./custom_config.md)
+
+```sh
+GROQ_API_KEY=
+MISTRAL_API_KEY=
+OPENROUTER_KEY=
+ANYSCALE_API_KEY=
+FIREWORKS_API_KEY=
+PERPLEXITY_API_KEY=
+TOGETHERAI_API_KEY=
 ```
 
 ### Anthropic
@@ -234,10 +247,10 @@ BINGAI_TOKEN=user_provided
 BINGAI_HOST=
 ```
 
-### ChatGPT
+<!-- ### ChatGPT
 see: [ChatGPT Free Access token](../configuration/ai_setup.md#chatgptbrowser)
 
-> **Warning**: To use this endpoint you'll have to set up your own reverse proxy. Here is the installation guide to deploy your own (based on [Ninja](https://github.com/gngpp/ninja)): **[Ninja Deployment Guide](../../features/ninja.md)**
+> **Warning**: To use this endpoint you'll have to set up your own reverse proxy.
 
 ```bash
 CHATGPT_REVERSE_PROXY=<YOUR-REVERSE-PROXY>
@@ -254,7 +267,7 @@ CHATGPT_REVERSE_PROXY=<YOUR-REVERSE-PROXY>
 ```bash
 CHATGPT_TOKEN=
 CHATGPT_MODELS=text-davinci-002-render-sha
-```
+``` -->
 
 ### Google
 Follow these instructions to setup the [Google Endpoint](./ai_setup.md#google)
@@ -514,6 +527,13 @@ See detailed instructions here: **[Stable Diffusion](../../features/plugins/stab
 SD_WEBUI_URL=http://host.docker.internal:7860
 ```
 
+### Tavily
+Get your API key here: [https://tavily.com/#api](https://tavily.com/#api)
+
+```bash
+TAVILY_API_KEY=
+```
+
 #### WolframAlpha
 See detailed instructions here: **[Wolfram Alpha](../../features/plugins/wolfram.md)**
 
@@ -602,7 +622,10 @@ REGISTRATION_VIOLATION_SCORE=1
 CONCURRENT_VIOLATION_SCORE=1
 MESSAGE_VIOLATION_SCORE=1
 NON_BROWSER_VIOLATION_SCORE=20
+ILLEGAL_MODEL_REQ_SCORE=5
 ```
+
+> Note: Non-browser access and Illegal model requests are almost always nefarious as it means a 3rd party is attempting to access the server through an automated script.
 
 #### Login and registration rate limiting.
 - `LOGIN_MAX`: The max amount of logins allowed per IP per `LOGIN_WINDOW`
@@ -840,4 +863,51 @@ Mail address for from field. It is **REQUIRED** to set a value here (even if it'
 
 ```bash
 EMAIL_FROM=noreply@librechat.ai 
+```
+### UI
+
+- **Help and FAQ button:** 
+
+Empty or commented `HELP_AND_FAQ_URL`, button enabled
+
+`HELP_AND_FAQ_URL=https://example.com`, button enabled and goes to `https://example.com`
+
+`HELP_AND_FAQ_URL=/`, button disabled
+
+```bash
+HELP_AND_FAQ_URL=
+```
+
+- **App title and footer:**
+
+Uncomment to add a custom footer
+
+Uncomment and make empty "" to remove the footer
+
+```bash
+APP_TITLE=LibreChat
+CUSTOM_FOOTER="My custom footer"
+```
+
+- **Birthday Hat:** Give the AI Icon a Birthday Hat 🥳
+
+> Will show automatically on February 11th (LibreChat's birthday)
+ 
+> Set this to `false` to disable the birthday hat
+
+> Set to `true` to enable all the time.
+
+```bash
+SHOW_BIRTHDAY_ICON=true
+```
+
+### Other
+
+- **Redis:** Redis support is experimental, you may encounter some problems when using it. 
+
+> If using Redis, you should flush the cache after changing any LibreChat settings
+
+```bash
+REDIS_URI=
+USE_REDIS=
 ```
